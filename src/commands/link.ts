@@ -24,7 +24,6 @@ export default class Link implements ICommand {
     }
 
     private onDiscordMessage(message: DiscordChatMessage): void {
-        console.log(message);
         if (!message.rawText.match(/^F-[0-9]{6}$/i))
             return;
 
