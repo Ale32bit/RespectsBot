@@ -52,7 +52,8 @@ export default class Link implements ICommand {
     }
 
     private clearCode(code: string) {
-        delete this.awaitingLinks[code];
+        if(this.awaitingLinks[code])
+            delete this.awaitingLinks[code];
     }
 
     private randomInt(min: number, max: number): number {
