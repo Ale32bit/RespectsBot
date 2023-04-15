@@ -36,14 +36,24 @@ export default class Link implements ICommand {
         let player = this.bot.getUser(user);
         player.discordId = message.discordUser.id;
 
+        this.clearCode(code);
         this.bot.saveUserData();
+
         this.bot.tell(user, `&9${message.discordUser.name}#${message.discordUser.discriminator} &ais now linked to your account!`);
     }
 
     private generateRandomCode(user: User): string {
-        let code = "F-" + this.randomInt(0, 999999).toString().padStart(6, "0");
+        let code: string;
+        do {
+            code = "F-" + this.randomInt(0, 999999).toString().padStart(6, "0");
+        } while(this.awaitingLinks[code]);
         this.awaitingLinks[code] = user;
+        setTimeout(this.clearCode, 300 * 1000, code);
         return code;
+    }
+
+    private clearCode(code: string) {
+        delete this.awaitingLinks[code];
     }
 
     private randomInt(min: number, max: number): number {
