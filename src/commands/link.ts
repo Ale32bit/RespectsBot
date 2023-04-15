@@ -47,7 +47,7 @@ export default class Link implements ICommand {
             code = "F-" + this.randomInt(0, 999999).toString().padStart(6, "0");
         } while(this.awaitingLinks[code]);
         this.awaitingLinks[code] = user;
-        setTimeout(this.clearCode, 300 * 1000, code);
+        setTimeout(this.clearCode.bind(this), 300 * 1000, code);
         return code;
     }
 
